@@ -1,5 +1,3 @@
-# Python program to illustrate the concept
-# of threading
 import threading
 import os
 
@@ -30,3 +28,22 @@ if __name__ == "__main__":
 	# wait until all threads finish
 	t1.join()
 	t2.join()
+
+import concurrent.futures
+
+def worker():
+	print("Worker thread running")
+
+# create a thread pool with 2 threads
+pool = concurrent.futures.ThreadPoolExecutor(max_workers=2)
+
+# submit tasks to the pool
+pool.submit(worker)
+pool.submit(worker)
+
+# wait for all tasks to complete
+pool.shutdown(wait=True)
+
+print("Main thread continuing to run")
+
+print("Mehdi Raza")
