@@ -1,38 +1,32 @@
-def fibon(limit):
-  a,b = 0,1
-  while a < limit:
-      yield a
-      a, b = b, a + b
+# Python program to illustrate the concept
+# of threading
+import threading
+import os
 
-for x in fibon(10):
-#    print (x)
-    pass
+def task1():
+	print("Task 1 assigned to thread: {}".format(threading.current_thread().name))
+	print("ID of process running task 1: {}".format(os.getpid()))
 
+def task2():
+	print("Task 2 assigned to thread: {}".format(threading.current_thread().name))
+	print("ID of process running task 2: {}".format(os.getpid()))
 
-def count(range=10):
-    a = 0
-    while a < range:
-        yield a
-        a += 1
-for i in count():
-    pass
-    # print(i)
+if __name__ == "__main__":
 
-class Counter:
-    def __init__(self, start,end):
-        self.value = start
-        self.end = end
-    
-    def __iter__(self):
-        return self
-    
-    def __next__(self):
-        if self.value > self.end:
-            raise StopIteration
-        curr = self.value
-        self.value += 1
-        return curr
+	# print ID of current process
+	print("ID of process running main program: {}".format(os.getpid()))
 
-for i in Counter(10,20):
-    print(i)
-        
+	# print name of main thread
+	print("Main thread name: {}".format(threading.current_thread().name))
+
+	# creating threads
+	t1 = threading.Thread(target=task1, name='t1')
+	t2 = threading.Thread(target=task2, name='t2')
+
+	# starting threads
+	t1.start()
+	t2.start()
+
+	# wait until all threads finish
+	t1.join()
+	t2.join()
